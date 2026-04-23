@@ -1,0 +1,302 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #5A6A70;
+  
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 80px;
+    
+    position: sticky;
+    top: 0;
+    
+    background: white;
+    z-index: 1000;
+    border-bottom: 1px solid #ddd; /*linha separando header dos outros*/
+   
+}
+
+nav{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    
+}
+
+.botao{
+
+    display: inline-block;
+    color: white;
+    background-color: #00B5A3;
+    padding: 12px 20px;
+    border-radius: 15px;
+
+    
+}
+.botao:hover{
+    background-color: #029687;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+a{
+    text-decoration: none;
+}
+
+h1{
+   font-family: 'poppins', sans-serif;
+   font-weight: 700;
+   font-size: 48px;
+   color:#1A2E35 ;
+}
+
+h2{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 32px;
+    color: #1A2E35;
+}
+
+h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 20px;
+  color: #1A2E35;
+}
+
+p {
+  font-size: 16px;
+  color: #5A6A70;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00B5A3;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase; 
+}
+
+.linkSimples {
+  text-decoration: none;
+  color: #1A2E35;
+}
+
+.linkSimples:hover {
+  color: #00B5A3;
+}
+
+.heart{
+    font-size: 23px;
+    color: aliceblue;
+    background-color: #00B5A3;
+    border-radius: 10px;
+    padding: 3px 10px;
+    display: inline-block;
+}
+
+.sessao1{
+    padding: 130px 20px;
+    background: linear-gradient(to bottom right, #E0F5F3, #ffffff);
+}
+
+.container1{
+    max-width: 800px;   /* limita largura */
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: flex-start;
+    padding: 0 20px;
+    
+}
+
+.sessao2{
+    padding: 100px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; 
+}
+
+.container2{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 0 30px;
+}
+
+.card2{
+    background-color: #F4F8F8;
+    padding: 50px 20px;
+    border-radius: 15px;
+    border: 1px solid transparent
+
+    
+}
+
+.card2:hover{
+    border: 1px solid #00B5A3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.impar{
+    color: #00B5A3;
+}
+
+.par{
+    color: #F28B8B;
+}
+
+.sessao3{
+    background-color:#F4F8F8;
+    padding: 100px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; 
+}
+
+.container3{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.card3{
+    
+    background-color: white;
+    padding: 50px 20px;
+    border-radius: 15px;
+     border: 1px solid #d3d3d3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.badge{
+    position: absolute;
+    top: -10px;
+    left: -10px;
+
+    width: 35px;
+    height: 35px;
+
+    background: #F28B8B;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    border-radius: 12px; 
+}
+
+footer{
+    background-color: #1A2E35;
+    padding: 80px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: left; 
+    
+}
+
+footer h2{
+    color: white;
+}
+
+footer h3{
+    color: white;
+}
+
+footer p{
+    color: #9cacb3;
+}
+.sessaoFooter{
+    display: flex;
+}
+
+.linkFooter{
+    text-decoration: none;
+    color: #9cacb3;
+}
+
+.linkFooter:hover{
+    color: #00B5A3;
+}
+
+.cardF{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0px 50px;
+}
+
+.linkRapido{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.copyright{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+}
+
+.copyright hr {
+    border: none;
+    height: 1px;
+    background: #9cacb3;
+    width: 100%;
+}
+
+.icon{
+    font-size: 20px;
+    color: white;
+    background-color: #384f5a ;
+    padding: 13px 15px;
+    border-radius: 30px;
+    
+}
+
+.icon:hover{
+   background-color: #029687;
+    
+}
+
+@media (max-width: 768px) {
+  .container1 {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
