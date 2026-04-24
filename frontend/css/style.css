@@ -1,9 +1,11 @@
+/* --------------------- RESET --------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* --------------------- BODY --------------------- */
 body{
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -11,6 +13,7 @@ body{
   
 }
 
+/* --------------------- HEADER --------------------- */
 header{
     display: flex;
     justify-content: space-between;
@@ -26,6 +29,7 @@ header{
    
 }
 
+/* --------------------- NAV --------------------- */
 nav{
     display: flex;
     gap: 15px;
@@ -33,6 +37,7 @@ nav{
     
 }
 
+/* --------------------- BOTÃO --------------------- */
 .botao{
 
     display: inline-block;
@@ -48,10 +53,12 @@ nav{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* --------------------- LINKS GERAIS --------------------- */
 a{
     text-decoration: none;
 }
 
+/* --------------------- TIPOGRAFIA --------------------- */
 h1{
    font-family: 'poppins', sans-serif;
    font-weight: 700;
@@ -61,14 +68,14 @@ h1{
 
 h2{
     font-family: 'Poppins', sans-serif;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
     font-size: 32px;
     color: #1A2E35;
 }
 
 h3 {
   font-family: 'Poppins', sans-serif;
-  font-weight: 500; /* Medium */
+  font-weight: 500; 
   font-size: 20px;
   color: #1A2E35;
 }
@@ -91,6 +98,7 @@ button {
   text-transform: uppercase; 
 }
 
+/* --------------------- LINKS ESTILIZADOS --------------------- */
 .linkSimples {
   text-decoration: none;
   color: #1A2E35;
@@ -100,6 +108,7 @@ button {
   color: #00B5A3;
 }
 
+/* --------------------- ÍCONE CORAÇÃO --------------------- */
 .heart{
     font-size: 23px;
     color: aliceblue;
@@ -109,13 +118,14 @@ button {
     display: inline-block;
 }
 
+/* --------------------- SESSÃO 1 (iNICIAL) --------------------- */
 .sessao1{
     padding: 130px 20px;
     background: linear-gradient(to bottom right, #E0F5F3, #ffffff);
 }
 
 .container1{
-    max-width: 800px;   /* limita largura */
+    max-width: 800px;  
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -124,6 +134,7 @@ button {
     
 }
 
+/* --------------------- SESSÃO 2 (SERVIÇOS) --------------------- */
 .sessao2{
     padding: 100px 10px;
     display: flex;
@@ -161,6 +172,7 @@ button {
     color: #F28B8B;
 }
 
+/* --------------------- SESSÃO 3 (COMO FUNCIONA) --------------------- */
 .sessao3{
     background-color:#F4F8F8;
     padding: 100px 10px;
@@ -207,6 +219,7 @@ button {
     border-radius: 12px; 
 }
 
+/* --------------------- FOOTER --------------------- */
 footer{
     background-color: #1A2E35;
     padding: 80px 10px;
@@ -228,6 +241,7 @@ footer h3{
 footer p{
     color: #9cacb3;
 }
+
 .sessaoFooter{
     display: flex;
 }
@@ -254,7 +268,7 @@ footer p{
     gap: 5px;
 }
 
-
+/* --------------------- COPYRIGHT --------------------- */
 .copyright{
 
     width: 100%;
@@ -272,6 +286,7 @@ footer p{
     width: 100%;
 }
 
+/* --------------------- ICONES DO FOOTER--------------------- */
 .icon{
     font-size: 20px;
     color: white;
@@ -286,6 +301,7 @@ footer p{
     
 }
 
+/* --------------------- RESPONSIVIDADE --------------------- */
 @media (max-width: 768px) {
   .container1 {
     flex-direction: column;
@@ -299,4 +315,72 @@ footer p{
   p {
     font-size: 16px;
   }
+}
+
+/* --------------------- Aside Agendamentos --------------------- */
+
+aside{
+    background-color: #ffffff;
+    width: 20%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ddd;
+    
+}
+
+.asid{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.navAside{
+   padding: 10px 15px; 
+   border-radius: 15px;
+   display: flex;
+   align-items: center;
+   gap: 5px;
+   color: #1A2E35;
+
+   
+}
+
+.navAside:hover{
+    background-color:#E0F5F3 ;
+}
+
+.navAside hr{
+    margin: 10px -20px;
+    width: calc(100% + 40px);
+}
+
+.cima{
+    border-bottom: 1px solid #ddd;
+}
+
+.baixo{
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+    display: flex;
+    align-items: right;
+    
+}
+
+.baixo a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1A2E35;
+}
+
+.baixo a:hover{
+    color: #F28B8B;
+}
+
+.agen{
+    background: #F4F8F8;
 }
