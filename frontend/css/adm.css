@@ -40,6 +40,11 @@ aside{
     width: calc(100% + 40px);
 }
 
+.navAside.ativo {
+  background-color: #00B5A3;
+  color: #E0F5F3;
+}
+
 .cima{
     border-bottom: 1px solid #ddd;
 }
@@ -159,10 +164,16 @@ aside{
 .tabela td {
     padding: 12px;
     border-bottom: 1px solid #eee;
-    color: #1A2E35;
+    color: #1a1a1a; 
+    font-weight: 510;
 }
 
 .tabela tbody tr:hover {
     background-color: #E0F5F3;
     transition: 0.2s;
+}
+
+.sub {
+  color: #777; 
+  font-weight: 400; 
 }
