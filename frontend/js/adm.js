@@ -30,18 +30,22 @@ botoes.forEach(botao => {
     botao.classList.add("ativo");
 
     renderizarTabela(tipo);
+
   });
 });
 
 /* --------------------- Tabela ADM --------------------- */
 
 const corpoTabela = document.getElementById("conteudo-tabela");
+const tituloTabela = document.getElementById("tituloTabela");
+const subTituloTabela = document.getElementById("subTituloTabela");
 
 const dados = {
   agendamentos: [
     {
       pet: "Thor",
       especie: "cão",
+      raca: "caramelo",
       tutor: "João Silva",
       telefone: "11 987788484",
       servico: "Banho",
@@ -50,6 +54,31 @@ const dados = {
       hora: "14:00",
       status: "Confirmado",
       acoes: "excluir e etc"
+    }
+  ],
+
+  pacientes:[
+    {
+      pet: "Thor",
+      especie: "cão",
+      idade: "3",
+      raca: "caramelo",
+      tutor: "João Silva",
+      telefone: "11 987788484",
+      visitas: "2",
+      data: "24/04/2026",
+      acoes: "excluir e etc"
+    }
+  ],
+
+  funcionarios:[
+    {
+        nome: "Dra. Ana Maria",
+        email: "anaMaria@medipet.com",
+        cargo: "Veterinario",
+        especialidade: "clinico geral",
+        statusFunc: "ativo",
+        acoes: "excluir e etc"
     }
   ]
 
@@ -62,8 +91,11 @@ function renderizarTabela(tipo) {
 
 
     corpoTabela.innerHTML = "";
+    tituloTabela.innerHTML = "";
+    subTituloTabela.innerHTML = "";
 
     if (tipo === "agendamentos") {
+
 
         cabecalho.innerHTML = `
       <tr>
@@ -79,7 +111,12 @@ function renderizarTabela(tipo) {
 
     corpoTabela.innerHTML = "";
 
+    tituloTabela.textContent = "Agendamento";
+    subTituloTabela.textContent = "Gerencie todos os agendamentos da clínica";
+
     dados.agendamentos.forEach(item => {
+
+        
         corpoTabela.innerHTML += `
         <tr>
             <td>
@@ -102,9 +139,11 @@ function renderizarTabela(tipo) {
         `;
     });
 
-    }else if( tipo == pacientes){
+    }else if( tipo === "pacientes"){
+
 
         corpoTabela.innerHTML = "";
+        
 
         cabecalho.innerHTML = `
         <tr>
@@ -119,6 +158,9 @@ function renderizarTabela(tipo) {
         `;
 
         corpoTabela.innerHTML = "";
+
+        tituloTabela.textContent = "Pacientes";
+        subTituloTabela.textContent = "Visualize e gerencie os pacientes cadastrados";
 
         dados.pacientes.forEach(item => {
         corpoTabela.innerHTML += `
@@ -135,6 +177,41 @@ function renderizarTabela(tipo) {
             </td>
             <td>${item.data}</td>
             <td>${item.visitas}</td>
+            <td>${item.acoes}</td>
+        </tr>
+        `;
+    });
+
+    }else if(tipo === "funcionarios"){
+        
+        corpoTabela.innerHTML = "";
+
+        cabecalho.innerHTML = `
+        <tr>
+            <th>Funcionario</th>
+            <th>cargo</th>
+            <th>Especialidade</th>
+            <th>Status</th>
+            <th>Ações</th>
+            
+        </tr>
+        `;
+
+        corpoTabela.innerHTML = "";
+
+        tituloTabela.textContent = "Funcionários";
+        subTituloTabela.textContent = "Busque funcionários e visualize suas escalas";
+
+        dados.funcionarios.forEach(item => {
+        corpoTabela.innerHTML += `
+        <tr>
+            <td>
+                <div class="titulo">${item.nome}</div>
+                <div class="sub">${item.email}</div>
+            </td>
+            <td>${item.cargo}</td>
+            <td>${item.especialidade}</td>
+            <td>${item.statusFunc}</td>
             <td>${item.acoes}</td>
         </tr>
         `;
