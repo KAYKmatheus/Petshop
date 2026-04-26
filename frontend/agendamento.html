@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento - MediPet</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
+  <link rel="stylesheet" href="css/agendamento.css">
+</head>
+<body>
+
+<div class="container">
+  <a href="#" class="link-voltar">← Voltar</a>
+
+  <header class="cabecalho">
+    <div class="logo-icone">❤</div>
+    <div class="textos">
+      <h1>Agendar Consulta</h1>
+      <p>Escolha o serviço, data e horário</p>
+    </div>
+  </header>
+
+  <div class="stepper">
+    <div class="step ativo" id="step1">
+      <div class="bolinha">1</div>
+      <span>Serviço</span>
+    </div>
+
+    <div class="linha"></div>
+
+    <div class="step" id="step2">
+      <div class="bolinha">2</div>
+      <span>Data & Hora</span>
+    </div>
+
+    <div class="linha"></div>
+
+    <div class="step" id="step3">
+      <div class="bolinha">3</div>
+      <span>Confirmação</span>
+    </div>
+  </div>
+
+  <main>
+    <div id="tela1" class="tela ativa">
+      <div class="card">
+        <header class="topo-card">
+          <h2>Escolha o Serviço</h2>
+        </header>
+
+        <section class="conteudo servicos-grid">
+          <button class="btn-servico">
+            <span class="titulo">Clínico Geral</span>
+            <span class="subtitulo">Consultas de rotina e check-up</span>
+          </button>
+
+          <button class="btn-servico">
+            <span class="titulo">Banho e Tosa</span>
+            <span class="subtitulo">Higiene e estética para seu pet</span>
+          </button>
+        </section>
+
+        <footer class="rodape-card">
+          <button class="btn-principal" id="btnTela2">Continuar</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="tela2" class="tela">
+      <div class="card">
+        <header class="topo-card">
+          <h2>Escolha Data e Horário</h2>
+        </header>
+
+        <section class="conteudo">
+          <div id="calendario" class="calendario-container"></div>
+
+          <h3 class="titulo-periodo">Manhã</h3>
+          <div id="manha" class="grade-horarios">
+            <button>08:00</button>
+            <button>08:30</button>
+            <button>09:00</button>
+            <button>09:30</button>
+            <button>10:00</button>
+            <button>10:30</button>
+            <button>11:00</button>
+            <button>11:30</button>
+          </div>
+
+          <h3 class="titulo-periodo">Tarde</h3>
+          <div id="tarde" class="grade-horarios">
+            <button>13:00</button>
+            <button>13:30</button>
+            <button>14:00</button>
+            <button>14:30</button>
+            <button>15:00</button>
+            <button>15:30</button>
+            <button>16:00</button>
+            <button>16:30</button>
+          </div>
+        </section>
+
+        <footer class="rodape-card duplo">
+          <button id="voltar1" class="btn-outline">Voltar</button>
+          <button class="btn-principal" id="btnTela3">Continuar</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="tela3" class="tela">
+      <div class="card">
+        <header class="topo-card">
+          <h2>Confirmar Agendamento</h2>
+        </header>
+
+        <section class="conteudo resumo-agendamento">
+          <div class="linha-resumo">
+            <span class="label">Pet</span>
+            <span class="valor" id="resPet">Rex (Cão)</span>
+          </div>
+          
+          <div class="linha-resumo">
+            <span class="label">Serviço</span>
+            <span class="valor" id="resServico">Banho e Tosa</span>
+          </div>
+          
+          <div class="linha-resumo">
+            <span class="label">Profissional</span>
+            <span class="valor" id="resProfissional">Maria Costa</span>
+          </div>
+          
+          <div class="linha-resumo">
+            <span class="label">Data</span>
+            <span class="valor" id="resData">29 de abril de 2026</span>
+          </div>
+          
+          <div class="linha-resumo">
+            <span class="label">Horário</span>
+            <span class="valor" id="resHorario">10:00</span>
+          </div>
+          
+          <div class="linha-resumo sem-borda">
+            <span class="label">Valor</span>
+            <span class="valor destaque-verde" id="resValor">R$ 150,00</span>
+          </div>
+        </section>
+
+        <footer class="rodape-card duplo">
+          <button id="voltar2" class="btn-outline">Voltar</button>
+          <button class="btn-principal" id="confirmar">Confirmar Agendamento</button>
+        </footer>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="js/agendamento.js"></script>
