@@ -25,4 +25,8 @@ public class PetService {
     public void deletar(long id){
         petRepository.deleteById(id);
     }
+
+    public List<Pet> buscar(String nome, String especie, Integer idade) {
+        return petRepository.filtrar(nome, especie, idade);
+    }
 }

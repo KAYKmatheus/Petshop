@@ -173,7 +173,34 @@ aside{
     transition: 0.2s;
 }
 
-.sub {
+.sub { /*subistitui titulo, tipo o numero de telefone*/
   color: #777; 
   font-weight: 400; 
+}
+
+.tabela .botaoDeletar{
+    color: red;
+    border-radius: 20px;
+    border: none;
+    padding: 5px 8px;
+    background-color: transparent;
+   
+}
+
+.botaoDeletar:hover{
+    color: red;
+    background-color: rgba(255, 0, 0, 0.15);
+}
+
+.botaoEditar{
+    color: rgb(0, 197, 0);
+    border-radius: 20px;
+    border: none;
+    padding: 5px 8px;
+    background-color: transparent;
+}
+
+.botaoEditar:hover{
+    color: rgb(0, 170, 0);
+    background-color: rgba(0, 250, 0, 0.336);
 }

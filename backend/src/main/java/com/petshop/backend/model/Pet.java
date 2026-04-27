@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Entity
 @Table ( name = "pets")
@@ -24,4 +25,5 @@ public class Pet {
     private String nomeTutor;
     private String telefone;
     private int visitas;
+    private LocalDate ultimaVisita;
 }
