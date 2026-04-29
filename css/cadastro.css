@@ -1,0 +1,247 @@
+/* Variáveis com as cores do seu Figma */
+:root {
+    --bg-body: #F6F7F9;
+    --primary: #0CB1A3;
+    --text-dark: #1C1F24;
+    --text-muted: #616873;
+    --text-light: #AFB6BF;
+    --border-light: #E1E5EA;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header-simples {
+    background-color: var(--white);
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--primary);
+}
+
+.header-simples h2 {
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-simples .heart {
+    background-color: var(--primary);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Container Principal */
+.container-cadastro {
+    max-width: 650px;
+    margin: 40px auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.link-voltar {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 16px;
+    transition: 0.3s;
+}
+
+.link-voltar:hover {
+    color: var(--primary);
+}
+
+/* Card do Formulário */
+.card {
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.topo-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.topo-card .icone-destaque {
+    background-color: var(--primary);
+    color: var(--white);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.topo-card h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.topo-card p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Estrutura do Formulário */
+.sessao-form {
+    margin-bottom: 32px;
+}
+
+.titulo-sessao {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+}
+
+.linha-divisoria {
+    border: 0;
+    border-top: 1px solid var(--border-light);
+    margin: 32px 0;
+}
+
+/* Grid para alinhar os inputs */
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.form-group input, .form-group select {
+    padding: 12px 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+    background-color: var(--white);
+}
+
+.form-group input::placeholder {
+    color: var(--text-light);
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary);
+}
+
+/* Ícone de olho na senha */
+.input-icone-dir {
+    position: absolute;
+    right: 16px;
+    top: 36px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* Upload de Foto */
+.margem-upload {
+    margin-top: 16px;
+}
+
+.upload-box {
+    border: 2px dashed var(--border-light);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #FAFCFC; /* Cor extra do seu Figma */
+}
+
+.upload-box:hover {
+    border-color: var(--primary);
+    background-color: #F0FAF9;
+}
+
+.upload-box i {
+    font-size: 24px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.upload-box p {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.upload-box span {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* Botão e Rodapé do formulário */
+.btn-principal {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: #0aa396;
+}
+
+.link-login {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.link-login span {
+    color: var(--primary);
+    font-weight: 600;
+}

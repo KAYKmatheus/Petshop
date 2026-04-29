@@ -1,0 +1,251 @@
+/* Variáveis com as cores do Figma */
+:root {
+    --bg-gradient-start: #FFFFFF;
+    --bg-gradient-end: #E0F6F5;
+    --primary: #0CB1A3;
+    --text-dark: #1C1F24;
+    --text-muted: #616873;
+    --text-light: #AFB6BF;
+    --border-light: #E1E5EA;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Fundo com gradiente radial conforme o Figma */
+body {
+    background: radial-gradient(circle at center, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container Centralizador */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo Animada/Estilizada */
+.logo-area {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logo-icon {
+    background-color: var(--primary);
+    color: var(--white);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 20px;
+    margin: 0 auto 12px auto;
+}
+
+.logo-area h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Card Principal */
+.login-card {
+    background-color: var(--white);
+    width: 100%;
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.topo-card-login {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.topo-card-login h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.topo-card-login p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Campos do Formulário */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Wrapper para colocar os ícones dentro do input */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 44px; /* Espaço maior nas laterais para os ícones */
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-dark);
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-light);
+}
+
+.input-wrapper input:focus {
+    border-color: var(--primary);
+}
+
+/* Posição dos ícones dentro do input */
+.icone-esq {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+.icone-dir {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Linha Lembrar-me e Esqueci Senha */
+.opcoes-login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    font-size: 13px;
+}
+
+.lembrar-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.lembrar-me input {
+    accent-color: var(--primary); /* Pinta o checkbox com a cor principal */
+    width: 16px;
+    height: 16px;
+}
+
+.link-destaque {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.link-destaque:hover {
+    color: #0aa396;
+}
+
+/* Botão Entrar */
+.btn-principal {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: #0aa396;
+}
+
+/* Divisor 'ou' */
+.divisor {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+}
+
+.divisor::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border-light);
+    z-index: 1;
+}
+
+.divisor span {
+    background-color: var(--white);
+    padding: 0 12px;
+    color: var(--text-light);
+    font-size: 13px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Rodapé do Card */
+.texto-rodape-card {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Link Admin externo */
+.link-admin {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.link-admin:hover {
+    color: var(--text-dark);
+}

@@ -1,11 +1,137 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Criar Conta - MediPet</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/cadastro.css">
 </head>
+
 <body>
-    
+
+    <header class="header-simples">
+        <h2><span class="heart">❤</span> MediPet</h2>
+    </header>
+
+    <main class="container-cadastro">
+        <a href="index.html" class="link-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+        <div class="card">
+            <div class="topo-card">
+                <div class="icone-destaque">❤</div>
+                <div>
+                    <h1>Criar Conta</h1>
+                    <p>Cadastre-se para agendar consultas</p>
+                </div>
+            </div>
+
+            <form action="#">
+                <div class="sessao-form">
+                    <h3 class="titulo-sessao">Seus Dados</h3>
+
+                    <div class="grid-1">
+                        <div class="form-group">
+                            <label>Nome completo</label>
+                            <input type="text" placeholder="Seu nome completo">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone</label>
+                            <input type="tel" placeholder="(00) 00000-0000">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>CPF</label>
+                            <input type="text" placeholder="000.000.000-00">
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <input type="password" placeholder="••••••••">
+                            <i class="fa-regular fa-eye input-icone-dir"></i>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmar Senha</label>
+                            <input type="password" placeholder="••••••••">
+                            <i class="fa-regular fa-eye input-icone-dir"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="linha-divisoria">
+
+                <div class="sessao-form">
+                    <h3 class="titulo-sessao">Dados do Pet</h3>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Nome do pet</label>
+                            <input type="text" placeholder="Nome do seu pet">
+                        </div>
+                        <div class="form-group">
+                            <label>Espécie</label>
+                            <select>
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="cao">Cachorro</option>
+                                <option value="gato">Gato</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Raça</label>
+                            <input type="text" placeholder="Raça">
+                        </div>
+                        <div class="form-group">
+                            <label>Idade</label>
+                            <input type="text" placeholder="Ex: 2 anos">
+                        </div>
+                        <div class="form-group">
+                            <label>Peso</label>
+                            <input type="text" placeholder="Ex: 15 kg">
+                        </div>
+                    </div>
+
+                    <div class="form-group margem-upload">
+                        <label>Foto do pet</label>
+                        <div class="upload-box">
+                            <i class="fa-regular fa-heart"></i>
+                            <p>Clique para adicionar foto</p>
+                            <span>PNG, JPG até 5MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-principal">Criar Conta</button>
+
+                <a href="#" class="link-login">
+                    Já tenho conta <span>➔ Entrar</span>
+                </a>
+            </form>
+        </div>
+    </main>
+
 </body>
+
 </html>
