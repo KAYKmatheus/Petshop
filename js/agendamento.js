@@ -1,113 +1,266 @@
-let agendamento = {
+// ─── Estado do agendamento ──────────────────────────────────────
+const agendamento = {
   servico: null,
-  data: null,
-  horario: null
+  data: null,         // formato "YYYY-MM-DD" para o backend
+  dataFormatada: null, // formato "DD/MM/YYYY" para exibição
+  horario: null,
+  funcionarioId: null,
+  funcionarioNome: null,
+  duracaoMinutos: 60
 };
 
-// trocar telas
+// Mapeamento: serviço → duração em minutos
+const duracaoServico = {
+  "Clínico Geral": 60,
+  "Banho e Tosa": 90
+};
+
+const BASE_URL = "http://localhost:8080";
+
+// ─── Navegação entre telas ──────────────────────────────────────
 function irParaTela(num) {
   document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
   document.getElementById("tela" + num).classList.add("ativa");
-
-  atualizarStepper(num); // 👈 ESSA LINHA
+  atualizarStepper(num);
 }
 
-// selecionar serviço
+function atualizarStepper(etapaAtual) {
+  [1, 2, 3].forEach(num => {
+    const step = document.getElementById("step" + num);
+    step.classList.remove("ativo", "concluido");
+    if (num < etapaAtual) step.classList.add("concluido");
+    else if (num === etapaAtual) step.classList.add("ativo");
+  });
+}
+
+// ─── Tela 1 — Seleção de serviço ────────────────────────────────
 const botoesServico = document.querySelectorAll(".btn-servico");
 
 botoesServico.forEach(btn => {
   btn.addEventListener("click", function () {
     botoesServico.forEach(b => b.classList.remove("selecionado"));
-
     this.classList.add("selecionado");
-    agendamento.servico = this.innerText;
+
+    // Pega só o título do serviço (primeiro span)
+    agendamento.servico = this.querySelector(".titulo")?.innerText || this.innerText;
+    agendamento.duracaoMinutos = duracaoServico[agendamento.servico] || 60;
   });
 });
 
-// botão continuar tela 1
 document.getElementById("btnTela2").onclick = function () {
   if (!agendamento.servico) {
-    alert("Escolha um serviço");
+    mostrarAlerta("Escolha um serviço para continuar.", "tela1");
     return;
   }
-
   irParaTela(2);
 };
 
-// botão voltar
-document.getElementById("voltar1").onclick = () => irParaTela(1);
-document.getElementById("voltar2").onclick = () => irParaTela(2);
+// ─── Tela 2 — Calendário e horários ─────────────────────────────
 
-//  calendário
-flatpickr("#calendario", {
-     inline: true,
-  minDate: "today",
-  dateFormat: "d/m/Y",
-  onChange: function (selectedDates, dateStr) {
-    agendamento.data = dateStr;
+// Busca do backend os funcionários disponíveis para o serviço
+async function buscarFuncionarioPorServico(servico) {
+  try {
+    const res = await fetch(`${BASE_URL}/funcionarios`);
+    const funcionarios = await res.json();
+
+    // Mapeia serviço → cargo
+    const cargoMap = {
+      "Clínico Geral": ["Veterinário", "Veterinária"],
+      "Banho e Tosa": ["Tosador", "Tosadora"]
+    };
+    const cargosAceitos = cargoMap[servico] || [];
+
+    return funcionarios.find(f =>
+      cargosAceitos.includes(f.cargo) && f.status === "Ativo"
+    ) || null;
+
+  } catch (err) {
+    console.error("Erro ao buscar funcionários:", err);
+    return null;
   }
-});
+}
 
-//  gerar horários
-//  gerar horários atualizados
-const horariosManha = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30","12:00"];
-const horariosTarde = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30","17:00"];
+// Busca horários disponíveis no backend
+async function buscarHorariosDisponiveis(funcionarioId, data, duracao) {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/agendamentos/horarios-disponiveis?funcionarioId=${funcionarioId}&data=${data}&duracao=${duracao}`
+    );
+    if (!res.ok) return [];
+    return await res.json(); // ["08:00", "09:00", ...]
+  } catch (err) {
+    console.error("Erro ao buscar horários:", err);
+    return [];
+  }
+}
 
-function criarBotoes(lista, containerId) {
-  const container = document.getElementById(containerId);
+// Renderiza os botões de horário
+async function renderizarHorarios(data) {
+  const containerManha = document.getElementById("manha");
+  const containerTarde = document.getElementById("tarde");
 
-  lista.forEach(hora => {
+  containerManha.innerHTML = "<p class='carregando'>Buscando horários...</p>";
+  containerTarde.innerHTML = "";
+
+  // Busca funcionário pelo serviço selecionado
+  const funcionario = await buscarFuncionarioPorServico(agendamento.servico);
+
+  if (!funcionario) {
+    containerManha.innerHTML = "<p class='sem-horarios'>Nenhum profissional disponível para este serviço.</p>";
+    return;
+  }
+
+  agendamento.funcionarioId = funcionario.id;
+  agendamento.funcionarioNome = funcionario.nome;
+
+  // Busca horários livres
+  const horarios = await buscarHorariosDisponiveis(
+    funcionario.id,
+    data,
+    agendamento.duracaoMinutos
+  );
+
+  containerManha.innerHTML = "";
+  containerTarde.innerHTML = "";
+
+  if (horarios.length === 0) {
+    containerManha.innerHTML = "<p class='sem-horarios'>Nenhum horário disponível nesta data.</p>";
+    return;
+  }
+
+  horarios.forEach(hora => {
+    const [h] = hora.split(":").map(Number);
     const btn = document.createElement("button");
     btn.innerText = hora;
+    btn.className = "btn-horario";
 
     btn.addEventListener("click", function () {
-      document.querySelectorAll("#tela2 button").forEach(b => b.classList.remove("selecionado"));
-
+      document.querySelectorAll(".btn-horario").forEach(b => b.classList.remove("selecionado"));
       this.classList.add("selecionado");
       agendamento.horario = hora;
     });
 
-    container.appendChild(btn);
+    // Manhã = até 12h / Tarde = 12h ou mais
+    if (h < 12) containerManha.appendChild(btn);
+    else containerTarde.appendChild(btn);
   });
 }
 
-criarBotoes(horariosManha, "manha");
-criarBotoes(horariosTarde, "tarde");
+// Calendário com Flatpickr
+flatpickr("#calendario", {
+  inline: true,
+  minDate: "today",
+  dateFormat: "Y-m-d", // formato ISO para o backend
+  locale: {
+    weekdays: {
+      shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+      longhand: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+    },
+    months: {
+      shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+      longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+    }
+  },
+  onChange: async function (selectedDates, dateStr) {
+    // dateStr vem como "YYYY-MM-DD"
+    agendamento.data = dateStr;
+    agendamento.dataFormatada = selectedDates[0].toLocaleDateString("pt-BR");
+    agendamento.horario = null; // reseta horário ao trocar data
+    await renderizarHorarios(dateStr);
+  }
+});
 
-// ir para tela 3
+// Botão continuar tela 2
 document.getElementById("btnTela3").onclick = function () {
-  if (!agendamento.data || !agendamento.horario) {
-    alert("Escolha data e horário");
+  if (!agendamento.data) {
+    mostrarAlerta("Escolha uma data.", "tela2");
+    return;
+  }
+  if (!agendamento.horario) {
+    mostrarAlerta("Escolha um horário.", "tela2");
     return;
   }
 
+  // Preenche resumo na tela 3
+  document.getElementById("resPet").innerText = "Seu pet"; // substituir quando tiver login
   document.getElementById("resServico").innerText = agendamento.servico;
-  document.getElementById("resData").innerText = agendamento.data;
+  document.getElementById("resProfissional").innerText = agendamento.funcionarioNome || "—";
+  document.getElementById("resData").innerText = agendamento.dataFormatada;
   document.getElementById("resHorario").innerText = agendamento.horario;
 
   irParaTela(3);
 };
 
-// confirmar
-document.getElementById("confirmar").onclick = function () {
-  console.log("Enviando para o backend:", agendamento);
-  alert("Agendamento realizado!");
+// Botões voltar
+document.getElementById("voltar1").onclick = () => irParaTela(1);
+document.getElementById("voltar2").onclick = () => irParaTela(2);
+
+// ─── Tela 3 — Confirmar agendamento ─────────────────────────────
+document.getElementById("confirmar").onclick = async function () {
+  const btn = document.getElementById("confirmar");
+  btn.disabled = true;
+  btn.innerText = "Enviando...";
+
+  try {
+    const payload = {
+      servico: agendamento.servico,
+      data: agendamento.data,
+      hora: agendamento.horario + ":00", // "08:00:00"
+      duracaoMinutos: agendamento.duracaoMinutos,
+      status: "Confirmado",
+      funcionario: { id: agendamento.funcionarioId },
+      pet: { id: 1 } // substituir pelo ID real quando tiver login
+    };
+
+    const res = await fetch(`${BASE_URL}/agendamentos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      mostrarSucesso();
+    } else {
+      const erro = await res.text();
+      // 409 = choque de horário
+      mostrarAlerta("⚠️ " + erro, "tela3");
+      btn.disabled = false;
+      btn.innerText = "Confirmar Agendamento";
+    }
+
+  } catch (err) {
+    mostrarAlerta("Erro ao conectar com o servidor. Tente novamente.", "tela3");
+    btn.disabled = false;
+    btn.innerText = "Confirmar Agendamento";
+  }
 };
 
-// stepper
-function atualizarStepper(etapaAtual) {
+// ─── Utilitários de UI ──────────────────────────────────────────
+function mostrarAlerta(mensagem, telaId) {
+  // Remove alertas anteriores
+  document.querySelectorAll(".alerta-erro").forEach(a => a.remove());
 
-  const steps = [1, 2, 3];
+  const div = document.createElement("div");
+  div.className = "alerta-erro";
+  div.textContent = mensagem;
 
-  steps.forEach(num => {
-    const step = document.getElementById("step" + num);
+  const tela = document.getElementById(telaId);
+  tela?.querySelector(".card")?.prepend(div);
 
-    step.classList.remove("ativo", "concluido");
+  // Some após 4 segundos
+  setTimeout(() => div.remove(), 4000);
+}
 
-    if (num < etapaAtual) {
-      step.classList.add("concluido");
-    } else if (num === etapaAtual) {
-      step.classList.add("ativo");
-    }
-  });
+function mostrarSucesso() {
+  const container = document.querySelector(".container");
+  container.innerHTML = `
+    <div class="sucesso-container">
+      <div class="sucesso-icone">✅</div>
+      <h2>Agendamento confirmado!</h2>
+      <p>Seu agendamento de <strong>${agendamento.servico}</strong> foi marcado para 
+         <strong>${agendamento.dataFormatada}</strong> às <strong>${agendamento.horario}</strong>
+         com <strong>${agendamento.funcionarioNome}</strong>.</p>
+      <a href="index.html" class="btn-principal">Voltar para o início</a>
+    </div>
+  `;
 }

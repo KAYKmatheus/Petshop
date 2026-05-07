@@ -366,3 +366,49 @@ body {
   background: #00c4a7 !important;
   color: white !important;
 }
+/* Alertas de validação */
+.alerta-erro {
+  background: #fff3f3;
+  border: 1.5px solid #e53935;
+  color: #e53935;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+/* Estado de carregando */
+.carregando {
+  color: #aaa;
+  font-size: 13px;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* Quando não tem horários */
+.sem-horarios {
+  color: #e53935;
+  font-size: 13px;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* Tela de sucesso */
+.sucesso-container {
+  text-align: center;
+  padding: 60px 20px;
+}
+.sucesso-icone {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+.sucesso-container h2 {
+  font-size: 24px;
+  color: #0CB1A3;
+  margin-bottom: 12px;
+}
+.sucesso-container p {
+  color: #555;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}

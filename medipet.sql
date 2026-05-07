@@ -115,3 +115,45 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-04-27 15:56:37
+
+-- 1. Adiciona a coluna funcionario_id na tabela agendamentos
+ALTER TABLE agendamentos 
+ADD COLUMN funcionario_id BIGINT,
+ADD COLUMN duracao_minutos INT NOT NULL DEFAULT 60,
+ADD CONSTRAINT fk_agendamento_funcionario 
+  FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id);
+
+-- 2. Cria a tabela de disponibilidade dos funcionários
+CREATE TABLE disponibilidade (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  funcionario_id BIGINT NOT NULL,
+  dia_semana INT NOT NULL,  -- 0=Domingo, 1=Segunda ... 6=Sábado
+  hora_inicio TIME NOT NULL,
+  hora_fim TIME NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_disponibilidade (funcionario_id, dia_semana, hora_inicio),
+  CONSTRAINT fk_disponibilidade_funcionario 
+    FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id)
+);
+
+-- 3. Insere a disponibilidade da Dra. Ana Maria que já existe
+-- (Segunda a Sexta, 08:00 às 18:00)
+INSERT INTO disponibilidade (funcionario_id, dia_semana, hora_inicio, hora_fim) VALUES
+(1, 1, '08:00', '17:00'),
+(1, 2, '08:00', '17:00'),
+(1, 3, '08:00', '17:00'),
+(1, 4, '08:00', '17:00'),
+(1, 5, '08:00', '17:00');
+
+-- 4. Atualiza o agendamento existente para linkar ao funcionario_id
+UPDATE agendamentos SET funcionario_id = 1 WHERE id = 1;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+  id       BIGINT NOT NULL AUTO_INCREMENT,
+  nome     VARCHAR(100),
+  email    VARCHAR(100) UNIQUE,
+  telefone VARCHAR(20),
+  cpf      VARCHAR(14) UNIQUE,
+  senha    VARCHAR(255),
+  PRIMARY KEY (id)
+);

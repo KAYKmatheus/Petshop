@@ -245,3 +245,16 @@ body {
     color: var(--primary);
     font-weight: 600;
 }
+/* Validação de formulário */
+.input-erro {
+  border: 1.5px solid #e53935 !important;
+  background-color: #fff5f5 !important;
+}
+
+.msg-erro {
+  display: block;
+  color: #e53935;
+  font-size: 11px;
+  margin-top: 4px;
+  margin-left: 2px;
+}
