@@ -6,13 +6,13 @@ const agendamento = {
   horario: null,
   funcionarioId: null,
   funcionarioNome: null,
-  duracaoMinutos: 60
+  duracaoMinutos: 30
 };
 
 // Mapeamento: serviço → duração em minutos
 const duracaoServico = {
-  "Clínico Geral": 60,
-  "Banho e Tosa": 90
+  "Clínico Geral": 30,
+  "Banho e Tosa": 30
 };
 
 const BASE_URL = "http://localhost:8080";
