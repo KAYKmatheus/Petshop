@@ -23,37 +23,31 @@ aside {
 }
 
 .meio.asid {
-    flex: 1; /* Faz a seção central ocupar todo o espaço restante */
+    flex: 1; 
 }
 
 .navAside {
-   padding: 10px 15px; 
-   border-radius: 15px;
-   display: flex;
-   align-items: center;
-   gap: 5px;
-   color: #1A2E35;
-   text-decoration: none;
+    padding: 10px 15px; 
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #1A2E35;
+    text-decoration: none;
 }
 
 .navAside:hover {
     background-color: #E0F5F3;
 }
 
-.navAside hr {
-    margin: 10px -20px;
-    width: calc(100% + 40px);
-}
-
 .navAside.ativo {
-  background-color: #00B5A3;
-  color: #E0F5F3;
+    background-color: #00B5A3;
+    color: #E0F5F3;
 }
 
-/* Estilo específico para o botão Sair */
 .navAside.btn-sair {
     color: #e53935;
-    margin-top: auto; /* Empurra o botão Sair para o fundo da tela no PC */
+    margin-top: auto; 
 }
 
 .navAside.btn-sair:hover {
@@ -75,6 +69,7 @@ aside {
     min-height: 100vh;
 }
 
+/* Pesquisa e Tabela */
 .pesquisa {
     padding: 20px 10px;
     margin-top: 25px;
@@ -98,17 +93,10 @@ aside {
     border: 1px solid #ddd;
     border-radius: 12px;
     cursor: pointer; 
-    text-transform: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 3px;
-}
-
-.search .sear {
-    position: absolute;
-    left: 10px;
-    color: #888;
 }
 
 .search {
@@ -119,16 +107,11 @@ aside {
     gap: 5px;
 }
 
-.search .but {
+.search .sear {
+    position: absolute;
     left: 10px;
     color: #888;
 }
-
-.pesquisa button:hover {
-   background-color: #f1f1f1;
-}
-
-/* --------------------- Tabela ADM --------------------- */
 
 .tabela {
     width: 100%;
@@ -156,201 +139,60 @@ aside {
     font-weight: 510;
 }
 
-.tabela tbody tr:hover {
-    background-color: #E0F5F3;
-    transition: 0.2s;
-}
-
-.sub { 
-  color: #777; 
-  font-weight: 400; 
-}
-
-.tabela .botaoDeletar {
-    color: red;
-    border-radius: 20px;
-    border: none;
-    padding: 5px 8px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.botaoDeletar:hover {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.15);
-}
-
-.botaoEditar {
-    color: rgb(0, 197, 0);
-    border-radius: 20px;
-    border: none;
-    padding: 5px 8px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.botaoEditar:hover {
-    color: rgb(0, 170, 0);
-    background-color: rgba(0, 250, 0, 0.336);
-}
-
 /* =====================================================
    RESPONSIVIDADE (Mobile & Tablet)
    ===================================================== */
-
 @media (max-width: 768px) {
-  aside {
-    width: 100%;
-    height: auto;
-    position: relative;
-    flex-direction: column; 
-    border-bottom: 1px solid #ddd;
-    border-right: none;
-  }
+    aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: column; 
+        border-bottom: 1px solid #ddd;
+        border-right: none;
+    }
 
-  .cima.asid {
-    width: 100%;
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+    .cima.asid {
+        width: 100%;
+        padding: 12px 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .meio.asid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap; 
-    overflow-x: auto;  
-    gap: 10px;
-    padding: 10px 15px;
-    width: 100%;
-    -webkit-overflow-scrolling: touch; 
-    scrollbar-width: none; 
-  }
-  
-  .meio.asid::-webkit-scrollbar {
-    display: none;
-  }
+    .meio.asid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 15px;
+    }
 
-  .navAside {
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    white-space: nowrap; 
-    flex-shrink: 0; 
-  }
+    .navAside {
+        padding: 8px 12px;
+        font-size: 13px;
+        border: 1px solid #ddd;
+        flex: 1 1 auto;
+        justify-content: center;
+    }
 
-  /* No celular, tira o Sair do fundo da tela e deixa rolar normal */
-  .navAside.btn-sair {
-      margin-top: 0; 
-  }
+    .navAside.btn-sair {
+        margin-top: 0; 
+    }
 
-  .agen {
-    flex-direction: column;
-  }
+    .agen {
+        flex-direction: column;
+    }
 
-  .direitaADM {
-    margin-left: 0;
-    padding: 15px;
-    height: auto;
-  }
+    .direitaADM {
+        margin-left: 0;
+        padding: 15px;
+    }
 
-  .tabela {
-    font-size: 12px;
-    display: block;
-    overflow-x: auto; 
-    white-space: nowrap;
-  }
-
-  .tabela th,
-  .tabela td {
-    padding: 8px 10px;
-  }
-
-  .pesquisa {
-    margin-top: 15px;
-  }
-}
-
-/* =====================================================
-   RESPONSIVIDADE (Mobile & Tablet)
-   ===================================================== */
-
-@media (max-width: 768px) {
-  aside {
-    width: 100%;
-    height: auto;
-    position: relative;
-    flex-direction: column; 
-    border-bottom: 1px solid #ddd;
-    border-right: none;
-    box-sizing: border-box; /* Impede que a tela vaze para os lados */
-  }
-
-  .cima.asid {
-    width: 100%;
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-  .meio.asid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; /* Permite que o Sair (ou outros) caia para a próxima linha se faltar espaço */
-    justify-content: flex-start;
-    gap: 10px;
-    padding: 10px 15px;
-    width: 100%;
-    box-sizing: border-box; /* Impede que a tela vaze para os lados */
-  }
-
-  .navAside {
-    padding: 8px 12px;
-    font-size: 13px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    white-space: nowrap; 
-    flex: 1 1 auto; /* Faz os botões se ajustarem como blocos flexíveis preenchendo o espaço */
-    justify-content: center; /* Centraliza o ícone e texto */
-  }
-
-  /* Remove a margem superior do Sair na versão mobile */
-  .navAside.btn-sair {
-      margin-top: 0; 
-  }
-
-  .agen {
-    flex-direction: column;
-  }
-
-  .direitaADM {
-    margin-left: 0;
-    padding: 15px;
-    height: auto;
-    box-sizing: border-box;
-  }
-
-  .tabela {
-    font-size: 12px;
-    display: block;
-    overflow-x: auto; 
-    white-space: nowrap;
-  }
-
-  .tabela th,
-  .tabela td {
-    padding: 8px 10px;
-  }
-
-  .pesquisa {
-    margin-top: 15px;
-  }
+    .tabela {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto; 
+    }
 }
