@@ -150,37 +150,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── Envia para o backend ───────────────────────────────────────
 
 async function enviarCadastro(form) {
-  const inputs   = form.querySelectorAll('input[type="text"]');
-  const email    = form.querySelector('input[type="email"]').value.trim();
-  const telefone = form.querySelector('input[type="tel"]').value.trim();
-  const senha    = form.querySelectorAll('input[type="password"]')[0].value;
+    const inputs = form.querySelectorAll('input[type="text"]');
+    const dados = {
+        usuario: {
+            nome: inputs[0].value.trim(),
+            email: form.querySelector('input[type="email"]').value.trim(),
+            telefone: form.querySelector('input[type="tel"]').value.trim(),
+            cpf: inputs[1].value.replace(/\D/g, ''),
+            senha: form.querySelectorAll('input[type="password"]')[0].value
+        },
+        pet: {
+            nome: inputs[2].value.trim(),
+            especie: form.querySelector('select').value,
+            raca: inputs[3].value.trim(),
+            idade: parseInt(inputs[4].value) || 0
+        }
+    };
 
-  const dados = {
-    nome:     inputs[0].value.trim(),
-    email,
-    telefone,
-    cpf:      inputs[1].value.replace(/\D/g, ''), // só números
-    senha
-    // pet virá depois quando tiver endpoint /pets
-  };
+    try {
+        const res = await fetch('http://localhost:8080/usuarios/cadastro-completo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
 
-  try {
-    const res = await fetch('http://localhost:8080/usuarios', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(dados)
-    });
-
-    if (res.ok) {
-      alert('Conta criada com sucesso!');
-      window.location.href = 'login.html';
-    } else {
-      const msg = await res.text();
-      // Mostra mensagem de erro inline
-      const emailInput = form.querySelector('input[type="email"]');
-      mostrarErro(emailInput, msg);
+        if (res.ok) {
+            alert('Conta e Pet cadastrados com sucesso!');
+            window.location.href = 'login.html';
+        } else {
+            const msg = await res.text();
+            alert("Erro: " + msg);
+        }
+    } catch (err) {
+        alert('Erro ao conectar com o servidor.');
     }
-  } catch (err) {
-    alert('Erro ao conectar com o servidor. Verifique se o backend está rodando.');
-  }
 }
