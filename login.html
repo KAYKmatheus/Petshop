@@ -27,13 +27,13 @@
                 <p>Entre para continuar cuidando do seu pet</p>
             </div>
 
-            <form action="#">
+            <form id="formLogin">
                 
                 <div class="form-group">
                     <label>E-mail</label>
                     <div class="input-wrapper">
                         <i class="fa-regular fa-envelope icone-esq"></i>
-                        <input type="email" placeholder="seu@email.com">
+                        <input type="email" id="emailLogin" placeholder="seu@email.com" required>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <label>Senha</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock icone-esq"></i>
-                        <input type="password" placeholder="••••••••">
+                        <input type="password" id="senhaLogin" placeholder="••••••••" required>
                         <i class="fa-regular fa-eye icone-dir"></i>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <a href="#" class="link-destaque">Esqueci minha senha</a>
                 </div>
 
-                <button type="submit" class="btn-principal">
+                <button type="submit" class="btn-principal" id="btnEntrar">
                     Entrar <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
@@ -68,8 +68,59 @@
             </form>
         </div>
 
-
     </main>
 
+    
+        <script>
+        const form = document.getElementById('formLogin');
+        const BASE_URL = "http://localhost:8080";
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            
+            const btn = document.getElementById('btnEntrar');
+            btn.innerHTML = 'Entrando... <i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            const email = document.getElementById('emailLogin').value;
+            const senha = document.getElementById('senhaLogin').value;
+
+            try {
+                const res = await fetch(`${BASE_URL}/usuarios/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                if (res.ok) {
+                    const dados = await res.json(); // Aqui recebemos { "usuario": {...}, "pet": {...} }
+                    
+                    // 1. Salva o usuário no navegador
+                    localStorage.setItem('usuarioLogado', JSON.stringify(dados.usuario));
+
+                    // 2. Salva o pet do banco de dados (se existir)
+                    if (dados.pet) {
+                        localStorage.setItem('petIdLogado', dados.pet.id);
+                        localStorage.setItem('petNomeLogado', dados.pet.nome);
+                    } else {
+                        localStorage.setItem('petNomeLogado', 'Sem Pet');
+                    }
+
+                    // Redireciona para a home em vez de agendamento
+                    window.location.href = 'index.html';
+                } else {
+                    const erroMsg = await res.text();
+                    alert("Erro: " + erroMsg);
+                    btn.innerHTML = 'Entrar <i class="fa-solid fa-arrow-right"></i>';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                alert("Erro ao conectar com o servidor.");
+                btn.innerHTML = 'Entrar <i class="fa-solid fa-arrow-right"></i>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+    
 </body>
 </html>
