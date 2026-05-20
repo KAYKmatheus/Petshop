@@ -41,8 +41,8 @@ botoesServico.forEach(btn => {
     botoesServico.forEach(b => b.classList.remove("selecionado"));
     this.classList.add("selecionado");
 
-    // Pega só o título do serviço (primeiro span)
-    agendamento.servico = this.querySelector(".titulo")?.innerText || this.innerText;
+    // Pega só o título do serviço e garante que não há espaços extras
+    agendamento.servico = (this.querySelector(".titulo")?.innerText || this.innerText).trim();
     agendamento.duracaoMinutos = duracaoServico[agendamento.servico] || 60;
   });
 });
@@ -63,16 +63,25 @@ async function buscarFuncionarioPorServico(servico) {
     const res = await fetch(`${BASE_URL}/funcionarios`);
     const funcionarios = await res.json();
 
-    // Mapeia serviço → cargo
-    const cargoMap = {
-      "Clínico Geral": ["Veterinário", "Veterinária"],
-      "Banho e Tosa": ["Tosador", "Tosadora"]
-    };
-    const cargosAceitos = cargoMap[servico] || [];
+    // Limpa o nome do serviço que veio do HTML
+    const servicoLimpo = servico.trim().toLowerCase();
 
-    return funcionarios.find(f =>
-      cargosAceitos.includes(f.cargo) && f.status === "Ativo"
-    ) || null;
+    // Mapeia serviço → cargo (Tudo em minúsculas para comparar)
+    const cargoMap = {
+      "clínico geral": ["veterinário", "veterinária"],
+      "banho e tosa": ["tosador", "tosadora", "banhista"]
+    };
+    
+    const cargosAceitos = cargoMap[servicoLimpo] || [];
+
+    return funcionarios.find(f => {
+      // Pega os dados do banco, garantindo que não sejam nulos, e padroniza
+      const cargoNoBanco = f.cargo ? f.cargo.trim().toLowerCase() : "";
+      const statusNoBanco = f.status ? f.status.trim().toLowerCase() : "";
+
+      // Compara tudo em minúsculo e sem espaços sobrando
+      return cargosAceitos.includes(cargoNoBanco) && statusNoBanco === "ativo";
+    }) || null;
 
   } catch (err) {
     console.error("Erro ao buscar funcionários:", err);
@@ -94,7 +103,7 @@ async function buscarHorariosDisponiveis(funcionarioId, data, duracao) {
   }
 }
 
-// Renderiza os botões de horário
+// Renderiza os botões de horário com trava de tempo
 async function renderizarHorarios(data) {
   const containerManha = document.getElementById("manha");
   const containerTarde = document.getElementById("tarde");
@@ -128,8 +137,33 @@ async function renderizarHorarios(data) {
     return;
   }
 
+  // --- LÓGICA DE BLOQUEIO DE TEMPO ---
+  const dataAtualObj = new Date();
+  
+  // Formata a data de hoje para o padrão YYYY-MM-DD para comparar com a data do calendário
+  const ano = dataAtualObj.getFullYear();
+  const mes = String(dataAtualObj.getMonth() + 1).padStart(2, '0');
+  const dia = String(dataAtualObj.getDate()).padStart(2, '0');
+  const dataDeHoje = `${ano}-${mes}-${dia}`;
+  
+  const horaAtual = dataAtualObj.getHours();
+  const minutoAtual = dataAtualObj.getMinutes();
+
+  let horariosRenderizados = 0; // Contador de horários válidos para o dia
+
   horarios.forEach(hora => {
-    const [h] = hora.split(":").map(Number);
+    // Pega a hora e o minuto do botão
+    const [h, m] = hora.split(":").map(Number);
+
+    // Se o cliente clicou no dia de hoje, bloqueia os horários que já passaram
+    if (data === dataDeHoje) {
+      if (h < horaAtual || (h === horaAtual && m <= minutoAtual)) {
+        return; // Pula este horário
+      }
+    }
+
+    horariosRenderizados++;
+
     const btn = document.createElement("button");
     btn.innerText = hora;
     btn.className = "btn-horario";
@@ -144,14 +178,20 @@ async function renderizarHorarios(data) {
     if (h < 12) containerManha.appendChild(btn);
     else containerTarde.appendChild(btn);
   });
+
+  // Se for hoje, mas no fim do dia e não houver mais horários válidos
+  if (horariosRenderizados === 0) {
+    containerManha.innerHTML = "<p class='sem-horarios'>O expediente já encerrou ou não há mais horários disponíveis para hoje.</p>";
+  }
 }
 
-// Calendário com Flatpickr
+// Calendário com Flatpickr corrigido
 flatpickr("#calendario", {
   inline: true,
   minDate: "today",
   dateFormat: "Y-m-d", // formato ISO para o backend
   locale: {
+    firstDayOfWeek: 0,
     weekdays: {
       shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
       longhand: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
@@ -162,7 +202,7 @@ flatpickr("#calendario", {
     }
   },
   onChange: async function (selectedDates, dateStr) {
-    // dateStr vem como "YYYY-MM-DD"
+    if (!selectedDates.length) return; // Evita erro se desmarcar
     agendamento.data = dateStr;
     agendamento.dataFormatada = selectedDates[0].toLocaleDateString("pt-BR");
     agendamento.horario = null; // reseta horário ao trocar data
@@ -209,7 +249,7 @@ document.getElementById("confirmar").onclick = async function () {
       duracaoMinutos: agendamento.duracaoMinutos,
       status: "Confirmado",
       funcionario: { id: agendamento.funcionarioId },
-      pet: { id: 1 } // substituir pelo ID real quando tiver login
+      pet: { id: 1 } // Lembre de substituir pelo ID real do pet logado no futuro
     };
 
     const res = await fetch(`${BASE_URL}/agendamentos`, {
