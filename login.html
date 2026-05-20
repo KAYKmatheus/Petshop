@@ -70,7 +70,8 @@
 
     </main>
 
-    <script>
+    
+        <script>
         const form = document.getElementById('formLogin');
         const BASE_URL = "http://localhost:8080";
 
@@ -92,16 +93,21 @@
                 });
 
                 if (res.ok) {
-                    const usuario = await res.json();
+                    const dados = await res.json(); // Aqui recebemos { "usuario": {...}, "pet": {...} }
                     
-                    // Salva o usuário no navegador
-                    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+                    // 1. Salva o usuário no navegador
+                    localStorage.setItem('usuarioLogado', JSON.stringify(dados.usuario));
 
-                    // Simula os dados do Pet vinculado
-                    localStorage.setItem('petIdLogado', 1); 
-                    localStorage.setItem('petNomeLogado', 'Thor');
+                    // 2. Salva o pet do banco de dados (se existir)
+                    if (dados.pet) {
+                        localStorage.setItem('petIdLogado', dados.pet.id);
+                        localStorage.setItem('petNomeLogado', dados.pet.nome);
+                    } else {
+                        localStorage.setItem('petNomeLogado', 'Sem Pet');
+                    }
 
-                    window.location.href = 'agendamento.html';
+                    // Redireciona para a home em vez de agendamento
+                    window.location.href = 'index.html';
                 } else {
                     const erroMsg = await res.text();
                     alert("Erro: " + erroMsg);
@@ -115,5 +121,6 @@
             }
         });
     </script>
+    
 </body>
 </html>
