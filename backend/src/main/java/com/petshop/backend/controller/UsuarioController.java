@@ -23,4 +23,14 @@ public class UsuarioController {
             return ResponseEntity.status(409).body(e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario credenciais) {
+        try {
+            Usuario usuarioLogado = usuarioService.login(credenciais.getEmail(), credenciais.getSenha());
+            return ResponseEntity.ok(usuarioLogado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
 }

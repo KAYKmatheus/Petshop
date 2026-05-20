@@ -12,18 +12,21 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public Usuario cadastrar(Usuario usuario) {
-        // Valida e-mail duplicado
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
             throw new RuntimeException("E-mail já cadastrado.");
         }
-
-        // Valida CPF duplicado
         if (usuarioRepository.findByCpf(usuario.getCpf()).isPresent()) {
             throw new RuntimeException("CPF já cadastrado.");
         }
-
-        // ⚠️ Aqui futuramente você vai hashear a senha com BCrypt
-        // Por agora salva direto
         return usuarioRepository.save(usuario);
+    }
+
+    // Método que o Controller está procurando
+    public Usuario login(String email, String senha) {
+        Usuario usuarioEncontrado = usuarioRepository.findByEmail(email).orElse(null);
+        if (usuarioEncontrado != null && usuarioEncontrado.getSenha().equals(senha)) {
+            return usuarioEncontrado;
+        }
+        throw new RuntimeException("E-mail ou senha incorretos.");
     }
 }

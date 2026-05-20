@@ -1,15 +1,25 @@
+// --- VERIFICAÇÃO DE LOGIN (Impede acesso sem logar) ---
+const usuarioLogado = localStorage.getItem('usuarioLogado');
+if (!usuarioLogado) {
+    alert("Você precisa estar logado para fazer um agendamento.");
+    window.location.href = 'login.html';
+}
+
+const petNome = localStorage.getItem('petNomeLogado') || "Seu pet";
+const petId = localStorage.getItem('petIdLogado') || 1;
+// ------------------------------------------------------
+
 // ─── Estado do agendamento ──────────────────────────────────────
 const agendamento = {
   servico: null,
-  data: null,         // formato "YYYY-MM-DD" para o backend
-  dataFormatada: null, // formato "DD/MM/YYYY" para exibição
+  data: null,         
+  dataFormatada: null, 
   horario: null,
   funcionarioId: null,
   funcionarioNome: null,
   duracaoMinutos: 30
 };
 
-// Mapeamento: serviço → duração em minutos
 const duracaoServico = {
   "Clínico Geral": 30,
   "Banho e Tosa": 30
@@ -40,8 +50,6 @@ botoesServico.forEach(btn => {
   btn.addEventListener("click", function () {
     botoesServico.forEach(b => b.classList.remove("selecionado"));
     this.classList.add("selecionado");
-
-    // Pega só o título do serviço e garante que não há espaços extras
     agendamento.servico = (this.querySelector(".titulo")?.innerText || this.innerText).trim();
     agendamento.duracaoMinutos = duracaoServico[agendamento.servico] || 60;
   });
@@ -56,17 +64,12 @@ document.getElementById("btnTela2").onclick = function () {
 };
 
 // ─── Tela 2 — Calendário e horários ─────────────────────────────
-
-// Busca do backend os funcionários disponíveis para o serviço
 async function buscarFuncionarioPorServico(servico) {
   try {
     const res = await fetch(`${BASE_URL}/funcionarios`);
     const funcionarios = await res.json();
-
-    // Limpa o nome do serviço que veio do HTML
     const servicoLimpo = servico.trim().toLowerCase();
 
-    // Mapeia serviço → cargo (Tudo em minúsculas para comparar)
     const cargoMap = {
       "clínico geral": ["veterinário", "veterinária"],
       "banho e tosa": ["tosador", "tosadora", "banhista"]
@@ -75,11 +78,8 @@ async function buscarFuncionarioPorServico(servico) {
     const cargosAceitos = cargoMap[servicoLimpo] || [];
 
     return funcionarios.find(f => {
-      // Pega os dados do banco, garantindo que não sejam nulos, e padroniza
       const cargoNoBanco = f.cargo ? f.cargo.trim().toLowerCase() : "";
       const statusNoBanco = f.status ? f.status.trim().toLowerCase() : "";
-
-      // Compara tudo em minúsculo e sem espaços sobrando
       return cargosAceitos.includes(cargoNoBanco) && statusNoBanco === "ativo";
     }) || null;
 
@@ -89,21 +89,19 @@ async function buscarFuncionarioPorServico(servico) {
   }
 }
 
-// Busca horários disponíveis no backend
 async function buscarHorariosDisponiveis(funcionarioId, data, duracao) {
   try {
     const res = await fetch(
       `${BASE_URL}/agendamentos/horarios-disponiveis?funcionarioId=${funcionarioId}&data=${data}&duracao=${duracao}`
     );
     if (!res.ok) return [];
-    return await res.json(); // ["08:00", "09:00", ...]
+    return await res.json(); 
   } catch (err) {
     console.error("Erro ao buscar horários:", err);
     return [];
   }
 }
 
-// Renderiza os botões de horário com trava de tempo
 async function renderizarHorarios(data) {
   const containerManha = document.getElementById("manha");
   const containerTarde = document.getElementById("tarde");
@@ -111,7 +109,6 @@ async function renderizarHorarios(data) {
   containerManha.innerHTML = "<p class='carregando'>Buscando horários...</p>";
   containerTarde.innerHTML = "";
 
-  // Busca funcionário pelo serviço selecionado
   const funcionario = await buscarFuncionarioPorServico(agendamento.servico);
 
   if (!funcionario) {
@@ -122,7 +119,6 @@ async function renderizarHorarios(data) {
   agendamento.funcionarioId = funcionario.id;
   agendamento.funcionarioNome = funcionario.nome;
 
-  // Busca horários livres
   const horarios = await buscarHorariosDisponiveis(
     funcionario.id,
     data,
@@ -137,10 +133,7 @@ async function renderizarHorarios(data) {
     return;
   }
 
-  // --- LÓGICA DE BLOQUEIO DE TEMPO ---
   const dataAtualObj = new Date();
-  
-  // Formata a data de hoje para o padrão YYYY-MM-DD para comparar com a data do calendário
   const ano = dataAtualObj.getFullYear();
   const mes = String(dataAtualObj.getMonth() + 1).padStart(2, '0');
   const dia = String(dataAtualObj.getDate()).padStart(2, '0');
@@ -149,16 +142,14 @@ async function renderizarHorarios(data) {
   const horaAtual = dataAtualObj.getHours();
   const minutoAtual = dataAtualObj.getMinutes();
 
-  let horariosRenderizados = 0; // Contador de horários válidos para o dia
+  let horariosRenderizados = 0; 
 
   horarios.forEach(hora => {
-    // Pega a hora e o minuto do botão
     const [h, m] = hora.split(":").map(Number);
 
-    // Se o cliente clicou no dia de hoje, bloqueia os horários que já passaram
     if (data === dataDeHoje) {
       if (h < horaAtual || (h === horaAtual && m <= minutoAtual)) {
-        return; // Pula este horário
+        return; 
       }
     }
 
@@ -174,22 +165,19 @@ async function renderizarHorarios(data) {
       agendamento.horario = hora;
     });
 
-    // Manhã = até 12h / Tarde = 12h ou mais
     if (h < 12) containerManha.appendChild(btn);
     else containerTarde.appendChild(btn);
   });
 
-  // Se for hoje, mas no fim do dia e não houver mais horários válidos
   if (horariosRenderizados === 0) {
     containerManha.innerHTML = "<p class='sem-horarios'>O expediente já encerrou ou não há mais horários disponíveis para hoje.</p>";
   }
 }
 
-// Calendário com Flatpickr corrigido
 flatpickr("#calendario", {
   inline: true,
   minDate: "today",
-  dateFormat: "Y-m-d", // formato ISO para o backend
+  dateFormat: "Y-m-d", 
   locale: {
     firstDayOfWeek: 0,
     weekdays: {
@@ -202,10 +190,10 @@ flatpickr("#calendario", {
     }
   },
   onChange: async function (selectedDates, dateStr) {
-    if (!selectedDates.length) return; // Evita erro se desmarcar
+    if (!selectedDates.length) return; 
     agendamento.data = dateStr;
     agendamento.dataFormatada = selectedDates[0].toLocaleDateString("pt-BR");
-    agendamento.horario = null; // reseta horário ao trocar data
+    agendamento.horario = null; 
     await renderizarHorarios(dateStr);
   }
 });
@@ -221,8 +209,8 @@ document.getElementById("btnTela3").onclick = function () {
     return;
   }
 
-  // Preenche resumo na tela 3
-  document.getElementById("resPet").innerText = "Seu pet"; // substituir quando tiver login
+  // Preenche resumo na tela 3 usando o nome do Pet salvo no login
+  document.getElementById("resPet").innerText = petNome; 
   document.getElementById("resServico").innerText = agendamento.servico;
   document.getElementById("resProfissional").innerText = agendamento.funcionarioNome || "—";
   document.getElementById("resData").innerText = agendamento.dataFormatada;
@@ -231,7 +219,6 @@ document.getElementById("btnTela3").onclick = function () {
   irParaTela(3);
 };
 
-// Botões voltar
 document.getElementById("voltar1").onclick = () => irParaTela(1);
 document.getElementById("voltar2").onclick = () => irParaTela(2);
 
@@ -245,11 +232,11 @@ document.getElementById("confirmar").onclick = async function () {
     const payload = {
       servico: agendamento.servico,
       data: agendamento.data,
-      hora: agendamento.horario + ":00", // "08:00:00"
+      hora: agendamento.horario + ":00", 
       duracaoMinutos: agendamento.duracaoMinutos,
       status: "Confirmado",
       funcionario: { id: agendamento.funcionarioId },
-      pet: { id: 1 } // Lembre de substituir pelo ID real do pet logado no futuro
+      pet: { id: petId } // Vincula o agendamento ao pet do usuário
     };
 
     const res = await fetch(`${BASE_URL}/agendamentos`, {
@@ -262,7 +249,6 @@ document.getElementById("confirmar").onclick = async function () {
       mostrarSucesso();
     } else {
       const erro = await res.text();
-      // 409 = choque de horário
       mostrarAlerta("⚠️ " + erro, "tela3");
       btn.disabled = false;
       btn.innerText = "Confirmar Agendamento";
@@ -275,9 +261,7 @@ document.getElementById("confirmar").onclick = async function () {
   }
 };
 
-// ─── Utilitários de UI ──────────────────────────────────────────
 function mostrarAlerta(mensagem, telaId) {
-  // Remove alertas anteriores
   document.querySelectorAll(".alerta-erro").forEach(a => a.remove());
 
   const div = document.createElement("div");
@@ -287,7 +271,6 @@ function mostrarAlerta(mensagem, telaId) {
   const tela = document.getElementById(telaId);
   tela?.querySelector(".card")?.prepend(div);
 
-  // Some após 4 segundos
   setTimeout(() => div.remove(), 4000);
 }
 
