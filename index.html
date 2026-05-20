@@ -12,17 +12,20 @@
 <body>
 
  <header>
-
     <h2> <span class="heart">❤</span> MediPet</h2>
     
-    <nav>
-        <a href="index.html" class="linkSimples">Home</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav id="navPrincipal">
+        
         <a href="agendamento.html" class="linkSimples">Agendamento</a>
         <a href="#contato" class="linkSimples">Contato</a>
         <a href="adm.html" class="linkSimples">ADMIN</a>
     </nav>
 
-    <nav style="display: flex; gap: 12px; align-items: center;">
+    <nav class="nav-botoes" id="navBotoes">
         <a href="cadastro.html" class="botao">Cadastrar-se</a>
         <a href="login.html" class="botao">Entrar</a>
     </nav>       
@@ -37,6 +40,9 @@
             <p>Agende consultas veterinárias com praticidade e segurança. Nossa equipe especializada está pronta para cuidar do bem-estar do seu melhor amigo.</p>
             <a href="agendamento.html" class="botao">Agendar Agora ➔</a>
         </div>
+        <div class="container1-img">
+            <img src="imagem principal.jpg" alt="Pet feliz sendo cuidado" class="img-hero">
+        </div>
     </section>
 
     <section class="sessao2">
@@ -45,24 +51,28 @@
 
         <div class="container2">
             <div class="card2">
+                <img src="consulta geral.jpg" alt="Consulta Geral" class="img-servico">
                 <span class="material-symbols-outlined impar">stethoscope</span>
                 <h3>Consulta Geral</h3>
                 <p>Avaliação completa da saúde do seu pet</p>
             </div>
 
             <div class="card2">
+                <img src="banho e tosa.jpg" alt="Banho e Tosa" class="img-servico">
                 <span class="material-symbols-outlined par">favorite</span>
                 <h3>Banho e Tosa</h3>
                 <p>Higiene e cuidado em cada detalhe</p>
             </div>
 
             <div class="card2">
+                <img src="exames.jpg" alt="Exames" class="img-servico">
                 <span class="material-symbols-outlined impar">experiment</span> 
                 <h3>Exames</h3>
                 <p>Laboratório completo e diagnósticos</p>
             </div>
 
             <div class="card2">
+                <img src="retorno.jpg" alt="Retorno" class="img-servico">
                 <span class="material-symbols-outlined par">autorenew</span>
                 <h3>Retorno</h3>
                 <p>Acompanhamento pós-consulta</p>
@@ -108,7 +118,7 @@
             <div class="cardF">
                 <h3>Links Rápidos</h3>
                 <div class="linkRapido">
-                    <a href="index.html" class="linkFooter">Home</a>
+                    <a href="index.html" class="linkFooter">Página Inicial</a>
                     <a href="agendamento.html" class="linkFooter">Agendamentos</a>
                     <a href="cadastro.html" class="linkFooter">Cadastro</a>
                 </div>
@@ -131,6 +141,16 @@
     </footer>
 
  </main>
+
+ <script>
+   const toggle = document.getElementById('menuToggle');
+   const nav = document.getElementById('navPrincipal');
+   const navBotoes = document.getElementById('navBotoes');
+   toggle.addEventListener('click', () => {
+     nav.classList.toggle('aberto');
+     navBotoes.classList.toggle('aberto');
+   });
+ </script>
     
 </body>
 </html>

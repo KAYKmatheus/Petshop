@@ -412,3 +412,66 @@ body {
   margin-bottom: 28px;
   line-height: 1.6;
 }
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 12px;
+  }
+
+  .cabecalho h1 {
+    font-size: 18px;
+  }
+
+  .stepper {
+    padding: 0 4px;
+  }
+
+  .step {
+    width: auto;
+  }
+
+  .step span {
+    font-size: 11px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .servicos-grid {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .btn-servico {
+    width: 100%;
+  }
+
+  .grade-horarios button {
+    width: 75px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .rodape-card.duplo {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .btn-principal,
+  .btn-outline {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .linha-resumo {
+    font-size: 13px;
+    flex-direction: column;
+    gap: 2px;
+  }
+}

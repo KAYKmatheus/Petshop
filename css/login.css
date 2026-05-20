@@ -249,3 +249,32 @@ body {
 .link-admin:hover {
     color: var(--text-dark);
 }
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 28px 20px;
+    border-radius: 14px;
+  }
+
+  .topo-card-login h1 {
+    font-size: 18px;
+  }
+
+  .opcoes-login {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btn-principal {
+    font-size: 15px;
+    padding: 13px;
+  }
+}

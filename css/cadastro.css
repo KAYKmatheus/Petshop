@@ -258,3 +258,36 @@ body {
   margin-top: 4px;
   margin-left: 2px;
 }
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 600px) {
+  .header-simples {
+    padding: 12px 20px;
+  }
+
+  .container-cadastro {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .card {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .topo-card h1 {
+    font-size: 18px;
+  }
+
+  .btn-principal {
+    font-size: 15px;
+    padding: 13px;
+  }
+}
